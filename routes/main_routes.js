@@ -19,6 +19,8 @@ var async = require('async');
 var crypto = require('crypto');
 
 module.exports = function (app, passport) {
+    // Use locals
+    app.locals.moment = require('moment');
     // Breadcrumbs
     app.use(breadcrumbs.init());
 
@@ -51,13 +53,14 @@ module.exports = function (app, passport) {
             name: 'breadcrumbs.home',
             url: '/' + req.params.lng + '/home'
         });
-
         //fetch all events to set in the midburn dropdown
-        Event.fetchAll().then((events) => {
+        Event.fetchAll().then(async (events) => {
+            const currentEventRules = await Event.get_event_controllDates(req.user.currentEventId) || {};
             res.render('pages/home', {
                 user: req.user,
                 events: events.toJSON(),
                 isAdmin: req.user.isAdmins,
+                currentEventRules: currentEventRules,
                 breadcrumbs: req.breadcrumbs()
             });
         });
@@ -93,7 +96,9 @@ module.exports = function (app, passport) {
                         errorMessage: req.flash('error')
                     });
                 } else {
-                    res.cookie('authToken', passportLib.generateJwtToken(req.body.email), { httpOnly: true, domain: '.midburn.org' });
+                    const cookieOptions = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ?
+                        { httpOnly: true, domain: constants.MIDBURN_DOMAIN } : { httpOnly: true }
+                    res.cookie('authToken', passportLib.generateJwtToken(req.body.email), cookieOptions);
                     var r = req.body['r'];
                     if (r && constants.LOGIN_REDIRECT_URL_WHITELIST.indexOf(r) > 0) {
                         return res.redirect(r);
@@ -233,6 +238,7 @@ module.exports = function (app, passport) {
     // =====================================
     app.get('/:lng/logout', function (req, res) {
         req.logout();
+        res.cookie('authToken', '', { expires: new Date(0), overwrite: true });
         res.redirect('/');
     });
 

@@ -19,7 +19,7 @@
     "hello": "Hello",
     "home": "Home",
     "invalid_user_password": "Invalid username or password",
-    "invalid_user_id": "Please login to your midburn profile, sorry for the inconvenience - https://profile.midburn.org/",
+    "invalid_user_id": "Please login to your midburn profile and complete registration, sorry for the inconvenience - https://profile.midburn.org/",
     "login": "Login",
     "logout": "Logout",
     "male": "Male",
@@ -73,6 +73,10 @@
         "npo_join": "Join NPO",
         "whoami": "Manage Profile"
     },
+    "top-nav": {
+      "manage": "Manage",
+      "gate": "Gate"
+    },
     "footer": {
         "scrolltop": "Back to top",
         "visit_homepage": "Visit Midburn website",
@@ -84,7 +88,8 @@
         "open_source": "Open Source",
         "want_to_help": "Want to help us code?",
         "toc": "Terms of Use and Privacy Policy",
-        "toc_link": "http://midburn.org/en/en-terms-and-privacy/"
+        "toc_link": "http://midburn.org/en/en-terms-and-privacy/",
+        "change_theme": "Change theme"
     },
     "whoami": {
         "gender": "Gender",
@@ -107,6 +112,7 @@
             "gate": "Gate Statistics",
             "total_tickets":"Event Tickets",
             "inside_event": "Currently Inside",
+            "cars_inside_event": "Cars Currently Inside",
             "ticketing": "Ticketing",
             "last_24h_first_entrance": "Last 24h entrance",
             "last_1h_first_entrance": "Last hour entrance",
@@ -117,7 +123,8 @@
             "other_stats" : "Other Statistics",
             "members_in_camps": "Members in camps",
             "participants_in_art_installations": "Participants in art installations",
-            "volunteers_in_production_departments": "Volunteers in production departments"
+            "volunteers_in_production_departments": "Volunteers in production departments",
+            "early_arrival_count": "Currently inside under early arrival"
         }
 
     }

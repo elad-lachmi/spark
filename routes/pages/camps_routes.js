@@ -35,7 +35,7 @@ var __render_camp = function (camp, req, res) {
         id: camp_id,
         event_id: req.user.currentEventId
     }).fetch({}).then((camp) => {
-        camp.getCampUsers((users) => {
+        camp.getCampSuppliers((suppliers) => {
             camp.init_t(req.t);
             // if user is camp_member, we can show all
             // let _user = camp.isUserCampMember(req.user.id);
@@ -45,6 +45,7 @@ var __render_camp = function (camp, req, res) {
                 userLoggedIn: req.user.hasRole('logged in'), //
                 id: camp_id, //
                 camp: camp_data,
+                suppliers: suppliers,
                 breadcrumbs: req.breadcrumbs(),
                 details: camp_data,
                 isAdmin: req.user.isAdmin,
@@ -54,10 +55,12 @@ var __render_camp = function (camp, req, res) {
                 main_contact: camp.isUserInCamp(camp.attributes.main_contact),
                 moop_contact: camp.isUserInCamp(camp.attributes.moop_contact),
                 safety_contact: camp.isUserInCamp(camp.attributes.safety_contact),
+                camp_protoype: camp.parsePrototype(req.user).id
             };
             Event.get_event_controllDates(req.user.currentEventId).then(controllDates => {
                 controllDates = controllDates || {};
-                data.campslastEditDate = controllDates.edit_camps_lastDate || new Date(Date.now() + 1000*60*60*24*30);
+                data.edit_camp_disabled = controllDates.edit_camp_disabled;
+                data.edit_art_disabled = controllDates.edit_art_disabled;
                 res.render('pages/camps/camp', data);
             })
 
@@ -194,6 +197,7 @@ var __render_camp = function (camp, req, res) {
                         isCamp: camp.attributes.__prototype === constants.prototype_camps.THEME_CAMP.id,
                         isProd: camp.attributes.__prototype === constants.prototype_camps.PROD_DEP.id,
                     }
+                    
                     const currentEventID = req.session.passport.user.currentEventId;
                     Event.get_event_controllDates(currentEventID)
                     .then(controllDates => {
@@ -275,7 +279,7 @@ var __render_camp = function (camp, req, res) {
             url: '/' + req.params.lng + '/home'
         },
         {
-            name: 'camps:breadcrumbs.manage',
+            name: 'camps:nav_admin',
             url: '/' + req.params.lng + '/camps-admin'
         }]);
 
@@ -309,7 +313,7 @@ var __render_camp = function (camp, req, res) {
             url: '/' + req.params.lng + '/home'
         },
         {
-            name: 'camps:breadcrumbs.manage',
+            name: 'camps:art_installation.nav_admin',
             url: '/' + req.params.lng + '/art-admin'
         }]);
         if (req.user.isAdmin || req.user.isArtInstallationsAdmin) {

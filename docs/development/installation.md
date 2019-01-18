@@ -23,10 +23,15 @@ Enter into the new Repository Folder
 ```shell
 cd Spark
 ```
-To be able to sync with Midburn repository you should add it as a remote:
 
 ```shell
 git remote add midburn https://github.com/Midburn/Spark.git
+```
+
+To be able to sync with Midburn repository you should add it as a remote:
+
+```shell
+git pull midburn master
 ```
 
 ### Getting Node and Yarn
@@ -94,6 +99,14 @@ mysql -u root -p
 Create a new MySql user with all privileges to spark DB.
 ```shell
 CREATE USER 'spark'@'localhost' IDENTIFIED BY 'spark';
+```
+If this fails, you might want to
+```shell```
+delete from mysql.db where user = 'spark';
+FLUSH PRIVILEGES;
+```
+and then - 
+```shell
 GRANT ALL PRIVILEGES ON spark . * TO 'spark'@'localhost';
 ```
 

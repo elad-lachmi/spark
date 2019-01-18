@@ -1,0 +1,22 @@
+h5(ng-if="!file")=t('suppliers:edit_new.no_files')
+table.table.table-striped.table-hover(ng-if="file")
+    thead
+        tr
+            th=t('suppliers:edit_new.supplier_file_url')
+            th=t('suppliers:edit_new.actions')
+    tbody
+        tr
+            td
+                span.glyphicon.glyphicon-file {{file.fileName}}
+
+            td
+                a.btn.btn-xs.Btn__blue(href="{{file.path}}")
+                    span(class='glyphicon glyphicon-download-alt')
+                    =t(t_prefix + 'edit_new.download')
+                button.btn.btn-xs.Btn__red(ng-click="deleteFile()")
+                    span(class='glyphicon glyphicon-trash')
+                    =t('suppliers:edit_new.delete_file')
+
+                
+div
+    input.form-control(type="file", id="supplier_file_input", ng-file-upload)

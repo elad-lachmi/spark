@@ -18,7 +18,7 @@
     "hello": "שלום",
     "home": "בית",
     "invalid_user_password": "דואר אלקטרוני או סיסמה אינם תקינים",
-    "invalid_user_id": "היכנסו בבקשה לפרופיל המידברן שלכם - https://profile.midburn.org",
+    "invalid_user_id": "היכנסו בבקשה לפרופיל המידברן שלכם והשלימו את תהליך ההרשמה - https://profile.midburn.org",
     "last_name": "שם משפחה",
     "login": "כניסה למערכת",
     "logout": "התנתקות",
@@ -74,6 +74,10 @@
         "npo_join": "הצטרפות לעמותה",
         "whoami": "עריכת פרופיל"
     },
+    "top-nav": {
+        "manage": "ניהול",
+        "gate": "שער"
+    },
     "footer": {
         "scrolltop": "חזרה למעלה",
         "visit_homepage": "בקרו באתר מידברן",
@@ -85,7 +89,8 @@
         "open_source": "קוד פתוח",
         "want_to_help": "רוצה לעזור לנו לקודד?",
         "toc": "תנאי השימוש באתר ומדיניות פרטיות",
-        "toc_link": "http://midburn.org/he-terms-and-privacy/"
+        "toc_link": "http://midburn.org/he-terms-and-privacy/",
+        "change_theme": "החלף צבע"
     },
     "whoami": {
         "gender": "מגדר",
@@ -108,6 +113,7 @@
             "gate": "סטטיסטיקות שער",
             "total_tickets":"כרטיסים לאירוע",
             "inside_event": "כרגע בתוך האירוע",
+            "cars_inside_event": "רכבים בתוך האירוע",
             "ticketing": "כירטוסים",
             "last_24h_first_entrance": "כירטוסים ב-24 שעות אחרונות",
             "last_1h_first_entrance": "כירטוסים בשעה אחרונה",
@@ -118,7 +124,8 @@
             "other_stats" : "סטטיסטיקת מחנות, מחלקות ומיצבים",
             "members_in_camps": "חברים במחנות נושא",
             "participants_in_art_installations": "משתתפים במיצבי אומנות",
-            "volunteers_in_production_departments": "מתנדבים במחלקות הפקה"
+            "volunteers_in_production_departments": "מתנדבים במחלקות הפקה",
+            "early_arrival_count": "כרגע בתוך האירוע תחת הגעה מוקדמת"
         }
 
     }

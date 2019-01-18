@@ -1,6 +1,4 @@
-/**
- * GLOBALS
- */
+/* GLOBALS */
 $(document).ajaxStart(function () {
     $('#ajax_indicator').removeClass('done').removeClass('hide').fadeIn('fast');
 });
@@ -141,7 +139,7 @@ function extractEventsCampData() {
         camp_activity_time: activity_time || '',
         child_friendly: $('#camp_child_friendly:checked').length,
         noise_level: $('#camp_noise_level option:selected').val() || '',
-        public_activity_area_sqm: $('#camp_public_activity_area_sqm').val() || '',
+        public_activity_area_sqm: $('#camp_public_activity_area_sqm').val() || 0,
         public_activity_area_desc: $('#camp_public_area_desc').val() || '',
         support_art: $('#support_art:checked').length,
         location_comments: $('#location_comments').val() || '',
@@ -273,7 +271,7 @@ function fetchAllCheckboxValues(className) {
     $('.' + className + ':checked').each(function (i) {
         val[i] = $(this).val();
         if (val[i] === 'other') {
-            val[i] += '=' + $('#' + className + '_other_text').val()
+            val[i] = $('#' + className + '_other_text').val()
         }
     });
     return val.toString();

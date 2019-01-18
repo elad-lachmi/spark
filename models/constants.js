@@ -1,22 +1,22 @@
-var get_default_enum = function (enu) {
+const get_default_enum = function (enu) {
     return enu.find(function (e) {
         return e.default;
     }).id;
 };
 
-var get_enum = function (enu) {
+const get_enum = function (enu) {
     return enu.map(function (e) {
         return e.id;
     })
 };
 
-var user_genders = [
+const user_genders = [
     {id: 'male'},
     {id: 'female'},
     {id: 'other', default: true}
 ];
 
-var npo_membership_statuses = [
+const npo_membership_statuses = [
     {id: 'not_member', default: true},
     {id: 'request_approved'},
     {id: 'member_paid'},
@@ -26,7 +26,7 @@ var npo_membership_statuses = [
     {id: 'applied_for_membership'}
 ];
 
-var gate_status = [
+const gate_status = [
     {id: 'regular', default: true},
     {id: 'early_arrival'}
 ];
@@ -74,10 +74,10 @@ const ticketType = {
     MIDBURN2017_YOUTH_TICKET: 44,
     MIDBURN2017_LOW_INCOME_TICKET: 45,
     INTERNATIONAL_DIRECT_SALE: 46,
-    SANDBOX2018_ADULT_TICKET: 49,
-    SANDBOX2018_TICKET_A: 50,
-    SANDBOX2018_TICKET_B: 51,
-    SANDBOX2018_TICKET_C: 52,
+    SANDBOX2017_ADULT_TICKET: 49,
+    SANDBOX2017_TICKET_A: 50,
+    SANDBOX2017_TICKET_B: 51,
+    SANDBOX2017_TICKET_C: 52,
     MIDBURN2018_CHILD_TICKET: 54,
     MIDBURN2018_FIELD_TICKET: 55,
     MIDBURN2018_INTERNATIONAL_DIRECT_SALE: 56,
@@ -90,7 +90,24 @@ const ticketType = {
     MIDBURN2018_ADULT_THEME_CAMPS_TICKET: 63,
     MIDBURN2018_ADULT_ARTISTS_TICKET: 64,
     MIDBURN2018_ADULT_PRODUCTION_TICKET: 65,
-    MIDBURN2018_ADULT_FRIENDS_ASSOC_TICKET: 66
+    MIDBURN2018_ADULT_FRIENDS_ASSOC_TICKET: 66,
+    SANDBOX2018_T1: 72,
+    SANDBOX2018_T2: 69,
+    SANDBOX2018_T3: 70,
+    SANDBOX2018_TEAM: 71
+};
+
+const SUPPLIERS_TABLE_NAME_FIELDS = {
+    supplier_id: 'supplier_id',
+    supplier_name_en: 'supplier_name_en',
+    supplier_name_he: 'supplier_name_he',
+    main_contact_name: 'main_contact_name',
+    main_contact_position: 'main_contact_position',
+    main_contact_phone_number: 'main_contact_phone_number',
+    supplier_category: 'supplier_category',
+    supplier_website_link: 'supplier_website_link',
+    supplier_midmarket_link: 'supplier_midmarket_link',
+    comments: 'comments'
 };
 
 // TODO We should not use enums like this at all!! Add ticket_types table to DB
@@ -131,16 +148,36 @@ const events = {
             ticketType.MIDBURN2018_ADULT_PRODUCTION_TICKET,
             ticketType.MIDBURN2018_ADULT_FRIENDS_ASSOC_TICKET
         ]
+    },
+    SANDBOX2018: {
+        bundles: [
+            ticketType.SANDBOX2018_T1,
+            ticketType.SANDBOX2018_T2,
+            ticketType.SANDBOX2018_T3,
+            ticketType.SANDBOX2018_TEAM
+        ]
+    },
+    SANDBOX2019: {
+        bundles: [
+            ticketType.SANDBOX2018_T1,
+            ticketType.SANDBOX2018_T2,
+            ticketType.SANDBOX2018_T3,
+            ticketType.SANDBOX2018_TEAM
+        ]
+    },
+    MIDBURN2019: {
+        bundles: []
     }
 };
 
+const default_event = process.env.NODE_ENV === 'testing' ? 'MIDBURN2019':`MIDBURN${new Date().getFullYear()}`;
 module.exports = {
 
     // -- system constant --
     // note: Future release will change the event_id
     // TODO We should not use this constant. We need to implement a mechanism that will allow the user to change the current event from the UI, therefore we can't rely on constant!
-    DEFAULT_EVENT_ID: `MIDBURN${new Date().getFullYear()}`,
-
+    //DEFAULT_EVENT_ID: `MIDBURN${new Date().getFullYear()}`,
+    DEFAULT_EVENT_ID: default_event,
     //TODO move this to jsoninfo inside events table
     //TODO also fix event.js method to extract the data
     //currently the method first returns the constants if exists and only if not it will search the DB
@@ -158,6 +195,16 @@ module.exports = {
     DRUPAL_USERS_TABLE_NAME: 'drupal_users',
     TICKETS_TABLE_NAME: 'tickets',
     CAMP_FILES_TABLE_NAME: 'camps_files',
+    SUPPLIERS_TABLE_NAME: 'suppliers',
+    SUPPLIERS_RELATIONS_TABLE_NAME: 'suppliers_relations',
+    SUPPLIERS_CONTRACTS_TABLE_NAME: 'suppliers_contracts',
+    SUPPLIERS_GATE_ENTRANCE_INFO_TABLE_NAME: 'suppliers_gate_entrance_info',
+    SUPPLIERS_COMMENTS_TABLE :'suppliers_comments',
+    suppliers_table_name_fields: SUPPLIERS_TABLE_NAME_FIELDS,
+    VEHICLE_ENTRIES_TABLE_NAME: 'vehicle_entries',
+    ENTRIES_TABLE_NAME: 'entries',
+
+    MIDBURN_DOMAIN: '.midburn.org',
 
     prototype_camps: prototype_camps,
 
@@ -173,6 +220,10 @@ module.exports = {
     USER_GENDERS: get_enum(user_genders),
     USER_GENDERS_DEFAULT: get_default_enum(user_genders),
 
+    TICKET_STATUSES: {
+        COMPLETED: 'Completed',
+        ENTERED: 'Entered'
+    },
     /**
      * User Current Status:
      *      define the position of the profile. in which event user is,
@@ -209,13 +260,26 @@ module.exports = {
      *      supplier - member is supplier, for the supplier notification later.
      */
     CAMP_MEMBER_STATUS: ['approved', 'pending', 'pending_mgr', 'rejected', 'approved_mgr', 'supplier', 'deleted'],
-
+    CAMP_MEMBER_APPROVAL_ENUM: ['approved', 'pending', 'approved_mgr'],
     EVENT_GATE_STATUS: get_enum(gate_status),
 
+    /**
+     * Routing and api constants
+     */
+    ROUTER_PREFIXES: {
+        USERS: '/users',
+        CAMPS: '/camps',
+        EVENTS: '/events'
+    },
     // This is a list of URLs the login process is allowed to redirect to.
     // This is to make sure users are not sent spark links via e.g. email by a malicious 3rd party
     // and are redirected to the senders desired location, e.g. can be used for phishing.
     // If we redirect to a new URL from login, we will need to add it here.
     LOGIN_REDIRECT_URL_WHITELIST: ['/', '/admin'],
 
+    SUPPLIER_CATEGORIES: ['moving', 'other'],
+    SUPPLIER_STATUS_CATEGORIES: ['Inside','Outside'],
+
+    ENTRY_DIRECTION: ['arrival', 'departure'],
+    ENTRY_TYPE: ['regular', 'early_arrival']
 };

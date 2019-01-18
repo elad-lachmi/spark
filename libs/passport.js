@@ -5,6 +5,7 @@ var User = require('../models/user').User;
 var config = require('config');
 var facebookConfig = config.get('facebook');
 var apiTokensConfig = config.get('api_tokens');
+var profilesApiConfig = config.get('profiles_api');
 var constants = require('../models/constants');
 var request = require('superagent');
 var _ = require('lodash');
@@ -17,21 +18,27 @@ Event = require('../models/event').Event;
  * once user is successfully logged-in, an automatic sign-up flow is performed which creates a corresponding spark user
  * @param email
  * @param password
- * @param done
+ * @param callback
  */
-const drupal_login_request = (email, password) => {
+const drupal_login_request = (email, password, callback) => {
+    if (profilesApiConfig.skipDrupalLogin) {
+        callback(null);
+    } else {
+        return request
+            .post(profilesApiConfig.url + '/api/user/login')
 
-    return request
-            // .post('https://profile-test.midburn.org/api/user/login')
-        .post('https://profile.midburn.org/api/user/login')
-        
-        // TODO: Workaround for Drupal bug, see https://github.com/Midburn/spark/pull/579 for details
-        .send({'username': email.replace('+', ''), 'password': password})
+            // TODO: Workaround for Drupal bug, see https://github.com/Midburn/spark/pull/579 for details
+            .send({'username': email.replace('+', ''), 'password': password})
 
-        .set('Accept', 'application/json')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .then(({ body }) => body, () => null);
-}
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .then(({ body }) => body, () => null)
+            .then(function(drupal_user) {
+                callback(drupal_user)
+            });
+    }
+};
+
 var login = function (email, password, done) {
     if (!email || !password || email.length === 0 || password.length === 0) {
         console.log('User', email, 'failed to authenticate.');
@@ -66,7 +73,7 @@ var login = function (email, password, done) {
 
 var drupal_login = function (email, password, done) {
     login(email, password, function (isLoggedIn, user, error) {
-        drupal_login_request(email, password).then(function (drupal_user) {
+        drupal_login_request(email, password, function (drupal_user) {
             if (drupal_user != null) {
                 // Drupal update information.
                 var drupal_user_id = _.get(drupal_user, 'user.uid');
@@ -192,12 +199,13 @@ var signup = function (email, password, user, done) {
     })
 };
 
-var generateJwtToken = function (email) {
+var generateJwtToken = function (email, eventId) {
     // from now on we'll identify the user by the email and the email
     // is the only personalized value that goes into our token
-    let payload = {email: email};
+    let _eventId = eventId || constants.DEFAULT_EVENT_ID
+    let payload = { email: email };
     let token = jwt.sign(payload, apiTokensConfig.token);
-    let userData = {token, currentEventId: constants.DEFAULT_EVENT_ID}
+    let userData = { token, currentEventId: _eventId }
     return userData;
 };
 

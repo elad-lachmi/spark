@@ -129,6 +129,7 @@ exports.profiles_api = {
     password: process.env.DRUPAL_PROFILE_API_PASSWORD || 'dummy',
     useCache: process.env.USE_DRUPAL_CACHE || false,
     cacheTTL: process.env.USE_DRUPAL_CACHE_TTL || 3600*24,
+    skipDrupalLogin: process.env.SKIP_DRUPAL_LOGIN || false
 };
 
 /**
@@ -137,12 +138,15 @@ exports.profiles_api = {
 let aws_config = {
     defualt_region: process.env.SPARK_CAMP_FILES_REGION,
     buckets: {
-        camp_file_upload: process.env.SPARK_CAMP_FILES_BUCKET
+        camp_file_upload: process.env.SPARK_CAMP_FILES_BUCKET,
+        supplier_contract_upload: process.env.SPARK_SUPPLIER_CONTRACTS_BUCKET
     },
     presignedUrlExpireSeconds: parseInt(process.env.SPARK_CAMP_FILES_PRESIGN_URL_EXPIRE_SECONDS)
 };
 exports.aws_config = aws_config
-
+exports.volunteers_config = {
+    api_url: process.env.VOLUNTEERS_BASE_URL || 'http://localhost:3500'
+}
 /**
  * Camp files config
  */
@@ -151,3 +155,7 @@ let camp_files_config = {
     upload_end_date: ''
 }
 exports.camp_files_config = camp_files_config
+
+exports.gate = {
+    force_entry_pwd: process.env.GATE_FORCE_ENTRY_PASSWORD || 'Nju5B=Hu'
+};

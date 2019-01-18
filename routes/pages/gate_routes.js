@@ -1,59 +1,73 @@
-var express = require('express');
-Event = require('../../models/event').Event;
-
-var router = express.Router({
+const express = require('express');
+const router = express.Router({
     mergeParams: true
 });
-
-var knex = require('../../libs/db').knex;
-var userRole = require('../../libs/user_role');
-var Event = require('../../models/event').Event;
+const knex = require('../../libs/db').knex;
+const userRole = require('../../libs/user_role');
+const Event = require('../../models/event').Event;
+const constants = require('../../models/constants');
 
 router.get('/', userRole.isGateManager(), function (req, res) {
     Event.forge({event_id: req.user.currentEventId}).fetch().then(event => {
         return res.render('pages/gate', {
-            gate_code: event.attributes.gate_code
+            gate_code: event.attributes.gate_code,
+            event_id: event.attributes.event_id
         });
+    });
+});
+
+// Supplier entries management
+router.get('/suppliers', userRole.isLoggedIn(), (req, res) => {
+    req.breadcrumbs([{
+        name: 'breadcrumbs.home',
+        url: '/' + req.params.lng + '/home'
+    }]);
+
+    res.render('pages/suppliers/supplier-entries', {
+        user: req.user,
+        t_prefix: 'suppliers:',
+        isAdmin: req.user.isAdmin,
+        breadcrumbs: req.breadcrumbs()
     });
 });
 
 router.get('/ajax/tickets',
     [userRole.isGateManager()], async function (req, res) {
-    if (req.query.search) {
-        const MINIMUM_LENGTH = 3;
 
+    const MINIMUM_LENGTH = 3;
+
+    if (!req.query.search || req.query.search.length < MINIMUM_LENGTH) {
         // If not meeting a minimum length, return empty results.
-        if (req.query.search.length < MINIMUM_LENGTH) {
-            return res.status(200).json({rows: [], total: 0})
-        }
+        return res.status(200).json({rows: [], total: 0});
+    }
 
-        //TODO - Make this function load only the tickets of the current event dynamically, not from constant.
-        let event = await Event.forge({event_id: req.user.currentEventId}).fetch();
-        let gate_status = event.attributes.gate_status;
+    let event = await Event.forge({event_id: req.user.currentEventId}).fetch();
+    let gate_status = event.attributes.gate_status;
 
-        knex.select('*').from('tickets').leftJoin('users', 'tickets.holder_id', 'users.user_id')
-            .where('ticket_number', isNaN(parseInt(req.query.search))? req.query.search: parseInt(req.query.search))
+    knex.select('*').from('tickets').leftJoin('users', 'tickets.holder_id', 'users.user_id')
+        .where('event_id', req.user.currentEventId)
+        .andWhere(function() {
+            this.where('ticket_status', 'IN', [constants.TICKET_STATUSES.COMPLETED, constants.TICKET_STATUSES.ENTERED])
+        })
+        .andWhere(function () {
+            this.where('ticket_number', isNaN(parseInt(req.query.search))? req.query.search: parseInt(req.query.search))
             .orWhere('first_name', 'LIKE', '%' + req.query.search + '%')
             .orWhere('last_name', 'LIKE', '%' + req.query.search + '%')
             .orWhere('email', 'LIKE', '%' + req.query.search + '%')
             .orWhere('israeli_id', 'LIKE', '%' + req.query.search + '%')
-            .andWhere('event_id',req.user.currentEventId)
             //.limit(parseInt(req.query.limit)).offset(parseInt(req.query.offset))
-            .then((tickets) => {
-                res.status(200).json({rows: tickets, total: tickets.length})
-            }).catch((err) => {
-                res.status(500).json({
-                    error: true,
-                    data: {
-                        message: err.message,
-                        gate_status: gate_status
-                    }
-                });
+        })
+        .then((tickets) => {
+            res.status(200).json({rows: tickets, total: tickets.length})
+        }).catch((err) => {
+            res.status(500).json({
+                error: true,
+                data: {
+                    message: err.message,
+                    gate_status: gate_status
+                }
             });
-    }
-    else {
-        return res.status(200).json({rows: [], total: 0})
-    }
+        });
 });
 
 module.exports = router;

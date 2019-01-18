@@ -5,6 +5,7 @@
         "title": "אירועים",
         "desc": "תפריט ניהול אירועים"
     },
+    "reset": "אפס חלוקת כרטיסי האירוע",
     "new_event": "אירוע חדש",
     "manage": "נהל",
     "admin": {
@@ -47,7 +48,13 @@
         "send_request": "עדכן אירוע",
         "event_code": "קוד אירוע",
         "event_type": "סוג אירוע",
-        "gate_code": "קוד שער"
+        "gate_code": "קוד שער",
+        "gate_status": "סטאטוס שער",
+        "status": {
+            "early_arrival": "כניסה מוקדמת",
+            "regular": "רגיל",
+            "closed": "סגור"
+        }
     },
     "form": {
         "dates_controll":{
@@ -58,6 +65,15 @@
             "start": "תאריך תחילת הקצאת כרטיסי הוקרה",
             "end": "תאריך סיום הקצאת כרטיסי הוקרה"
         },
-        "camps_edit_lastDate": "תאריך אחרון לעדכון מחנות"
+        "early_arrivals": {
+            "start": "תאריך תחילת הקצאת הגעה מוקדמת",
+            "end": "תאריך סיום הקצאת הגעה מוקדמת"
+        },
+        "camps_edit_disabled": "חסימת עריכת מחנות",
+        "art_edit_disabled": "חסימת עריכת מיצגי אומנות",
+        "group_sale_tickets_allocation": {
+            "start": "תאריך תחילת הקצאת כרטיסי קבוצה",
+            "end": "תאריך סיום הקצאת כרטיסי קבוצה"
+        }
     }
 }
