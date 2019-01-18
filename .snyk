@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.13.3
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:ms:20170412':
@@ -186,6 +186,10 @@ patch:
         patched: '2018-06-21T03:00:42.060Z'
     - node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
         patched: '2018-06-21T03:00:42.060Z'
+    - passport-jwt > jsonwebtoken > joi > hoek:
+        patched: '2019-01-18T14:29:07.565Z'
+    - passport-jwt > jsonwebtoken > joi > topo > hoek:
+        patched: '2019-01-18T14:29:07.565Z'
   'npm:mime:20170907':
     - express-mailer > nodemailer > mailcomposer > mime:
         patched: '2018-06-25T22:22:47.149Z'
