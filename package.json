@@ -94,7 +94,7 @@
     "request": "^2.84.0",
     "requirejs": "^2.3.2",
     "serve-favicon": "~2.4.3",
-    "snyk": "^1.62.2",
+    "snyk": "^1.316.1",
     "sprintf-js": "1.0.3",
     "superagent": "^3.8.2",
     "webpack": "^2.2.0",

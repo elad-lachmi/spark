@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.14.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:ms:20170412':
@@ -192,3 +192,100 @@ patch:
   'npm:tunnel-agent:20170305':
     - node-sass > request > tunnel-agent:
         patched: '2018-06-25T22:22:47.149Z'
+  SNYK-JS-LODASH-567746:
+    - lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - async > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - archiver > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - bookshelf > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - knex > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - node-cache > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - archiver > archiver-utils > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - archiver > async > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - archiver > zip-stream > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - aws-sdk > xmlbuilder > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-generator > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-template > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-register > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - snyk > inquirer > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - snyk > snyk-resolve-deps > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - archiver > zip-stream > archiver-utils > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - aws-sdk > xml2js > xmlbuilder > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-generator > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-template > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-generator > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-template > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-helpers > babel-template > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-template > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - snyk > snyk-nuget-plugin > xml2js > xmlbuilder > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-generator > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-helpers > babel-template > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-template > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-helpers > babel-template > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-template > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-helpers > babel-template > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2020-05-01T06:08:04.632Z'
