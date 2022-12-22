@@ -73,7 +73,7 @@
     "i18next-node-fs-backend": "^1.0.0",
     "jade": "^1.11.0",
     "json2csv": "^3.7.3",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
     "mocker-data-generator": "^2.5.2",
