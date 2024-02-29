@@ -38,7 +38,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "archiver": "^2.1.1",
+    "archiver": "^7.0.0",
     "async": "^2.1.4",
     "aws-sdk": "^2.178.0",
     "babel-core": "^6.21.0",
